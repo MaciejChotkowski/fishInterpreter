@@ -1,10 +1,13 @@
 import sys
 import time
+import random
 
 def PrintCodeSpace(codeSpace, x, y, Stack, output, register):
     print()
+    print("Stacks:")
     for i in range(len(Stack) - 1, -1, -1):
         print(Stack[i])
+    print("Register: ", end='')
     if register is not None:
         print(register)
     else:
@@ -220,6 +223,8 @@ while(True):
             PCDir = 3
         elif PCDir == 3:
             PCDir = 1
+    elif program[PCy][PCx] == 'x':
+        PCDir = random.randint(0,3)
     elif program[PCy][PCx] == '=':
         x = Stack[-1].pop()
         y = Stack[-1].pop()
