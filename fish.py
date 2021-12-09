@@ -56,8 +56,6 @@ steps = 0
 readingMode = False
 
 while(True):
-    skipMove = False
-
     if readingMode:
         if program[PCy][PCx] == "'" or program[PCy][PCx] == '"':
             readingMode = False
@@ -112,6 +110,8 @@ while(True):
         Stack[-1].append(b-a)
     elif program[PCy][PCx] == 'o':
         output.append(chr(Stack[-1].pop()))
+    elif program[PCy][PCx] == 'i':
+        Stack[-1].append(ord(input()[0]))
     elif program[PCy][PCx] == 'p':
         y = Stack[-1].pop()
         x = Stack[-1].pop()
@@ -148,6 +148,7 @@ while(True):
     elif program[PCy][PCx] == 'g':
         y = Stack[-1].pop()
         x = Stack[-1].pop()
+        print(y, ' ', x)
         Stack[-1].append(ord(program[y][x]))
     elif program[PCy][PCx] == ';':
         PrintCodeSpace(program, PCx, PCy, Stack, output, register)
