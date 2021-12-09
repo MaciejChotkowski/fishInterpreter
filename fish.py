@@ -228,6 +228,15 @@ while(True):
             PCDir = 3
         elif PCDir == 3:
             PCDir = 1
+    elif program[PCy][PCx] == '#':
+        if PCDir == 1:
+            PCDir = 3
+        elif PCDir == 3:
+            PCDir = 1
+        elif PCDir == 0:
+            PCDir = 2
+        elif PCDir == 2:
+            PCDir = 0
     elif program[PCy][PCx] == 'x':
         PCDir = random.randint(0,3)
     elif program[PCy][PCx] == '=':

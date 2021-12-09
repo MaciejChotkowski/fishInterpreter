@@ -1,0 +1,59 @@
+(zx + zyi)(zx + zyi) + (px + pyi)
+zx^2 + zxzyi + zxzyi - zy^2 + px + pyi
+(zx^2 - zy^2 + px) + (2zxzy + py)i
+
+
+}   l px py zx zy
+:   zy l px py zx
+:   zy l px py zx zx
+*   zy l px py zx zx zx
+{   zy l px py zx zx^2
+:   l px py zx zx^2 zy
+:   l px py zx zx^2 zy zy
+*   l px py zx zx^2 zy zy zy
+$   l px py zx zx^2 zy zy^2
+}   l px py zx zx^2 zy^2 zy
+-   zy l px py zx zx^2 zy^2
+{   zy l px py zx zx^2-zy^2
+{   l px py zx zx^2-zy^2 zy
+{   px py zx zx^2-zy^2 zy l
+:   py zx zx^2-zy^2 zy l px
+@   py zx zx^2-zy^2 zy l px px
+}   py zx zx^2-zy^2 zy px l px
+}   px py zx zx^2-zy^2 zy px l
+$   l px py zx zx^2-zy^2 zy px
+}   l px py zx zx^2-zy^2 px zy
++   zy l px py zx zx^2-zy^2 px
+{   zy l px py zx zx^2-zy^2+px
+$   l px py zx zx^2-zy^2+px zy
+}   l px py zx zy zx^2-zy^2+px
+*   zx^2-zy^2+px l px py zx zy
+2   zx^2-zy^2+px l px py zx*zy
+*   zx^2-zy^2+px l px py zx*zy 2
+$   zx^2-zy^2+px l px py 2*zx*zy
+:   zx^2-zy^2+px l px 2*zx*zy py
+}   zx^2-zy^2+px l px 2*zx*zy py py
++   py zx^2-zy^2+px l px 2*zx*zy py
+{   py zx^2-zy^2+px l px 2*zx*zy+py
+$   zx^2-zy^2+px l px 2*zx*zy+py py
+{   zx^2-zy^2+px l px py 2*zx*zy+py
+$   l px py 2*zx*zy+py zx^2-zy^2+px
+{   l px py zx^2-zy^2+px 2*zx*zy+py
+1   px py zx^2-zy^2+px 2*zx*zy+py l
+-   px py zx^2-zy^2+px 2*zx*zy+py l 1
+}   px py zx^2-zy^2+px 2*zx*zy+py l-1
+   l-1 px py zx^2-zy^2+px 2*zx*zy+py
+
+
+
+}::*{::*$}-{{{:@}}$}+{$}*2*$:}+{${${1-}
+
+: zx zy
+* zx zy zy
+$ zx zy^2
+: zy^2 zx
+* zy^2 zx zx
++ zy^2 zx^2
+  zy^2+zx^2
+
+:*$:*+
