@@ -97,11 +97,15 @@ while(True):
     elif program[PCy][PCx] == '+':
         a = Stack[-1].pop()
         b = Stack[-1].pop()
-        Stack[-1].append(a+b)
+        Stack[-1].append(b + a)
     elif program[PCy][PCx] == '*':
         a = Stack[-1].pop()
         b = Stack[-1].pop()
-        Stack[-1].append(a*b)
+        Stack[-1].append(b * a)
+    elif program[PCy][PCx] == '*':
+        a = Stack[-1].pop()
+        b = Stack[-1].pop()
+        Stack[-1].append(b%a)
     elif program[PCy][PCx] == '-':
         a = Stack[-1].pop()
         b = Stack[-1].pop()
@@ -194,7 +198,7 @@ while(True):
     elif program[PCy][PCx] == ',':
         a = Stack[-1].pop()
         b = Stack[-1].pop()
-        Stack[-1].append(float(b)/a)
+        Stack[-1].append(float(b) / a)
     elif program[PCy][PCx] == '\\':
         if PCDir == 0:
             PCDir = 3
@@ -246,6 +250,8 @@ while(True):
             Stack[-1].append(1)
         else:
             Stack[-1].append(0)
+    elif program[PCy][PCx] == 'k':
+        output.clear()
     elif program[PCy][PCx] != ' ':
         print('UNIMPLEMENTED CHARACTER: ' + program[PCy][PCx])
         exit()
