@@ -55,6 +55,7 @@ PrintCodeSpace(program, PCx, PCy, Stack, output, register)
 steps = 0
 
 readingMode = False
+manualInput = False
 
 while(True):
     for skip in range(framesPerLoop):
@@ -113,7 +114,14 @@ while(True):
         elif program[PCy][PCx] == 'o':
             output.append(chr(Stack[-1].pop()))
         elif program[PCy][PCx] == 'i':
-            Stack[-1].append(ord(input()[0]))
+            if manualInput:
+                Stack[-1].append(ord(input()[0]))
+            else:
+                tmpstr = sys.stdin.read(1)
+                if len(tmpstr) == 0:
+                    Stack[-1].append(0)
+                else:
+                    Stack[-1].append(ord(tmpstr))
         elif program[PCy][PCx] == 'p':
             y = Stack[-1].pop()
             x = Stack[-1].pop()
