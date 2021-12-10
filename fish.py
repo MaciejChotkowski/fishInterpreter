@@ -2,16 +2,26 @@ import sys
 import time
 import random
 
+class RegisterValue:
+    def __init__(self):
+        self.value = 0
+        self.isSet = False
+
 def PrintCodeSpace(codeSpace, x, y, Stack, output, register):
     print()
     print("Stacks:")
     for i in range(len(Stack) - 1, -1, -1):
         print(Stack[i])
-    print("Register: ", end='')
-    if register is not None:
-        print(register)
-    else:
-        print('#')
+    print("Register: |", end='')
+    
+    for r in register:
+        if r.isSet:
+            print(r.value, end='')
+            print("|", end='')
+        else:
+            print("#|", end='')
+    print()
+
     for i in range(len(codeSpace)):
         for j in range(len(codeSpace[i])):
             print('\u001b[40m', end='')
@@ -48,7 +58,7 @@ for l in range(len(program)):
         program[l] = "".join((program[l], ' '))
 
 output = []
-register = None
+register = [RegisterValue()]
 
 PrintCodeSpace(program, PCx, PCy, Stack, output, register)
 
@@ -56,6 +66,8 @@ steps = 0
 
 readingMode = False
 manualInput = False
+
+negativeData = dict()
 
 while(True):
     for skip in range(framesPerLoop):
@@ -83,11 +95,12 @@ while(True):
         elif program[PCy][PCx] == "'" or program[PCy][PCx] == '"':
             readingMode = True
         elif program[PCy][PCx] == '&':
-            if register is None:
-                register = Stack[-1].pop()
+            if register[-1].isSet:
+                Stack[-1].append(register[-1].value)
+                register[-1].isSet = False
             else:
-                Stack[-1].append(register)
-                register = None
+                register[-1].value = Stack[-1].pop()
+                register[-1].isSet = True
         elif program[PCy][PCx] == '$':
             tmp = Stack[-1][-2]
             Stack[-1][-2] = Stack[-1][-1]
@@ -119,17 +132,20 @@ while(True):
             else:
                 tmpstr = sys.stdin.read(1)
                 if len(tmpstr) == 0:
-                    Stack[-1].append(0)
+                    Stack[-1].append(-1)
                 else:
                     Stack[-1].append(ord(tmpstr))
         elif program[PCy][PCx] == 'p':
             y = Stack[-1].pop()
             x = Stack[-1].pop()
             v = Stack[-1].pop()
-            if x != int(x) or y != int(y):
-                print("FLOAT CAN NOT BE AN INDEX")
-                exit()
-            program[int(y)] = program[int(y)][:int(x)] + str(chr(v)) + program[int(y)][int(x) + 1:]
+            if x < 0 or y < 0:
+                negativeData[(x, y)] = v
+            else:
+                if x != int(x) or y != int(y):
+                    print("FLOAT CAN NOT BE AN INDEX")
+                    exit()
+                program[int(y)] = program[int(y)][:int(x)] + str(chr(v)) + program[int(y)][int(x) + 1:]
         elif program[PCy][PCx] == '?':
             if Stack[-1].pop() == 0:
                 if PCDir == 0:
@@ -161,8 +177,10 @@ while(True):
         elif program[PCy][PCx] == 'g':
             y = Stack[-1].pop()
             x = Stack[-1].pop()
-            print(y, ' ', x)
-            Stack[-1].append(ord(program[y][x]))
+            if x < 0 or y < 0:
+                Stack[-1].append(ord(negativeData[(x, y)]))
+            else:
+                Stack[-1].append(ord(program[y][x]))
         elif program[PCy][PCx] == ';':
             PrintCodeSpace(program, PCx, PCy, Stack, output, register)
             print('FINISHED SUCCESFULLY')
@@ -193,6 +211,7 @@ while(True):
                 else:
                     PCx -= 1
         elif program[PCy][PCx] == '[':
+            register.append(RegisterValue())
             d = Stack[-1].pop()
             tmpStack = []
             for n in range(d):
@@ -200,6 +219,7 @@ while(True):
             tmpStack.reverse()
             Stack.append(tmpStack)
         elif program[PCy][PCx] == ']':
+            register.pop()
             Stack[-1].reverse()
             while len(Stack[-1]) > 0:
                 Stack[-2].append(Stack[-1].pop())
@@ -293,6 +313,7 @@ while(True):
         steps += 1
 
     PrintCodeSpace(program, PCx, PCy, Stack, output, register)
+    print(negativeData)
     time.sleep(float(sys.argv[2]))
     print("Steps taken: " + str(steps))
 
